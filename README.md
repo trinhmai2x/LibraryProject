@@ -16,7 +16,7 @@ Hệ thống hỗ trợ các luồng nghiệp vụ cơ bản:
 * **Quản lý Mượn/Trả**: Thực hiện các yêu cầu mượn sách và kiểm tra trạng thái trả sách.
 
 ## 🧪 Kỹ thuật Testing đã áp dụng
-Trong dự án này, mình đã thực hiện:
+Trong dự án này đã thực hiện:
 1. **Environment Variables**: Sử dụng biến môi trường trong Postman để linh hoạt giữa các môi trường (Dev/Staging).
 2. **API Chaining**: Sử dụng kết quả của API này (ví dụ: `book_id`) làm đầu vào cho API tiếp theo.
 3. **Scripts (Tests)**:
