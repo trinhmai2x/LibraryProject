@@ -1,0 +1,2147 @@
+{
+  "info": {
+    "_postman_id": "e00fea5b-ad83-4f64-8b54-043f7e41187e",
+    "name": "Library_practice",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "28056069"
+  },
+  "item": [
+    {
+      "name": "BOOK",
+      "item": [
+        {
+          "name": "POST create book",
+          "item": [
+            {
+              "name": "Validate",
+              "item": [
+                {
+                  "name": "Validate field \"title\" - empty string",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// pm.test(\"Thêm mới thành công\", function () {\r",
+                          "//   pm.response.to.have.status(201);\r",
+                          "// });\r",
+                          "\r",
+                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "})\r",
+                          "\r",
+                          "pm.test(\"Check status\", function (){\r",
+                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
+                          "})\r",
+                          "\r",
+                          "const expectTitle = pm.environment.get(\"title\");\r",
+                          "const expectAuthor = pm.environment.get(\"author\");\r",
+                          "const expectStatus = pm.environment.get(\"status\");\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          "pm.test(\"validate all fields\", () => {\r",
+                          "    const jsonData = pm.response.json().data; \r",
+                          "    const bookData = jsonData.book || jsonData;\r",
+                          "    pm.expect(bookData.title).to.eql(title);\r",
+                          "    pm.expect(bookData.author).to.eql(author);\r",
+                          "    pm.expect(bookData.status).to.eql(status);\r",
+                          "})\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Validate field \"title\" - contain space",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// pm.test(\"Thêm mới thành công\", function () {\r",
+                          "//   pm.response.to.have.status(201);\r",
+                          "// });\r",
+                          "\r",
+                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "})\r",
+                          "\r",
+                          "pm.test(\"Check status\", function (){\r",
+                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
+                          "})\r",
+                          "\r",
+                          "const expectTitle = pm.environment.get(\"title\");\r",
+                          "const expectAuthor = pm.environment.get(\"author\");\r",
+                          "const expectStatus = pm.environment.get(\"status\");\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          "pm.test(\"validate all fields\", () => {\r",
+                          "    const jsonData = pm.response.json().data; \r",
+                          "    const bookData = jsonData.book || jsonData;\r",
+                          "    pm.expect(bookData.title).to.eql(title);\r",
+                          "    pm.expect(bookData.author).to.eql(author);\r",
+                          "    pm.expect(bookData.status).to.eql(status);\r",
+                          "})\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"     {{title}}       \",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Validate field \"title\" - special character",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// pm.test(\"Thêm mới thành công\", function () {\r",
+                          "//   pm.response.to.have.status(201);\r",
+                          "// });\r",
+                          "\r",
+                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "})\r",
+                          "\r",
+                          "pm.test(\"Check status\", function (){\r",
+                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
+                          "})\r",
+                          "\r",
+                          "const expectTitle = pm.environment.get(\"title\");\r",
+                          "const expectAuthor = pm.environment.get(\"author\");\r",
+                          "const expectStatus = pm.environment.get(\"status\");\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          "pm.test(\"validate all fields\", () => {\r",
+                          "    const jsonData = pm.response.json().data; \r",
+                          "    const bookData = jsonData.book || jsonData;\r",
+                          "    pm.expect(bookData.title).to.eql(title);\r",
+                          "    pm.expect(bookData.author).to.eql(author);\r",
+                          "    pm.expect(bookData.status).to.eql(status);\r",
+                          "})\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"$#^$^%$^{{title}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Validate field \"title\" - doesn't contain",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// pm.test(\"Thêm mới thành công\", function () {\r",
+                          "//   pm.response.to.have.status(201);\r",
+                          "// });\r",
+                          "\r",
+                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "})\r",
+                          "\r",
+                          "pm.test(\"Check status\", function (){\r",
+                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
+                          "})\r",
+                          "\r",
+                          "const expectTitle = pm.environment.get(\"title\");\r",
+                          "const expectAuthor = pm.environment.get(\"author\");\r",
+                          "const expectStatus = pm.environment.get(\"status\");\r",
+                          "\r",
+                          "\r",
+                          "\r",
+                          "pm.test(\"validate all fields\", () => {\r",
+                          "    const jsonData = pm.response.json().data; \r",
+                          "    const bookData = jsonData.book || jsonData;\r",
+                          "    pm.expect(bookData.title).to.eql(title);\r",
+                          "    pm.expect(bookData.author).to.eql(author);\r",
+                          "    pm.expect(bookData.status).to.eql(status);\r",
+                          "})\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Create book successfully",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// pm.test(\"Thêm mới thành công\", function () {\r",
+                      "//   pm.response.to.have.status(201);\r",
+                      "// });\r",
+                      "\r",
+                      "pm.expect(\"Thêm mới sách thành công\", function (){\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "})\r",
+                      "\r",
+                      "pm.test(\"Check status\", function (){\r",
+                      "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
+                      "})\r",
+                      "\r",
+                      "const expectedTitle = pm.environment.get(\"title\");\r",
+                      "const expectedAuthor = pm.environment.get(\"author\");\r",
+                      "const expectedStatus = pm.environment.get(\"status\");\r",
+                      "\r",
+                      "const book = pm.response.json().data_created;\r",
+                      "\r",
+                      "pm.test(\"validate all fields\", () => {\r",
+                      "    pm.expect(book.title).to.eql(expectedTitle);\r",
+                      "    pm.expect(book.author).to.eql(expectedAuthor);\r",
+                      "    pm.expect(book.status).to.eql(expectedStatus);\r",
+                      "});\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"title\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET books",
+          "item": [
+            {
+              "name": "Validate",
+              "item": []
+            },
+            {
+              "name": "GET all books",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "const id = pm.environment.get(\"bk_id\");\r",
+                      "\r",
+                      "const listId = pm.response.json().map(item => item.book_id);\r",
+                      "console.log(listId);\r",
+                      "\r",
+                      "pm.test(\"Check bookId existed in listId\", () => {\r",
+                      "    pm.expect(listId).include(id);\r",
+                      "});\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create book successfully",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Thêm mới thành công\", function () {\r",
+                      "  pm.response.to.have.status(201);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"tittle\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET book_Id",
+          "item": [
+            {
+              "name": "Validate",
+              "item": [
+                {
+                  "name": "GET not existed book",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "let bookId_notexisted = _.random(200,300);\r",
+                          "console.log(bookId_notexisted);\r",
+                          "pm.environment.set(\"bk_id\", bookId_notexisted)"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "GET existed book successfully",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books/{{bk_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books",
+                    "{{bk_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create book successfully",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "  pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "\r",
+                      "const res = pm.response.json();\r",
+                      "pm.environment.set(\"bk_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"tittle\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "PUT update book",
+          "item": [
+            {
+              "name": "UPDATE book successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"tittle\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books/{{bk_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books",
+                    "{{bk_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create book successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"tittle\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "  pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const res = pm.response.json();\r",
+                      "pm.environment.set(\"bk_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "PATCH Update_paritial_book",
+          "item": [
+            {
+              "name": "GET existed book successfully",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"Dale Carnegie\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books/{{bk_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books",
+                    "{{bk_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create book successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"tittle\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "  pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const res = pm.response.json();\r",
+                      "pm.environment.set(\"bk_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "UPDATE paritial book",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"tittle\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books/{{bk_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books",
+                    "{{bk_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "DELETE Book",
+          "item": [
+            {
+              "name": "Create book successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                      "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                      "pm.environment.set(\"tittle\", randomTitle);\r",
+                      "pm.environment.set(\"author\", randomAuthor);\r",
+                      "\r",
+                      "const list = [\"available\", \"borrowed\"];\r",
+                      "const status = _.sample(list);\r",
+                      "// console.log(status);\r",
+                      "pm.environment.set(\"status\", status);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "  pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const res = pm.response.json();\r",
+                      "pm.environment.set(\"bk_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE existed book",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseURL}}/Books/{{bk_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Books",
+                    "{{bk_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MEMBERS",
+      "item": [
+        {
+          "name": "POST create member",
+          "item": [
+            {
+              "name": "Create member successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomFullName = pm.variables.replaceIn(\"{{$randomFullName}}\"); \r",
+                      "const emailPrefix = randomFullName.toLowerCase().replace(/\\s/g, '')\r",
+                      "const randomNumber = Math.floor(Math.random() * 900) + 100; // Thêm 3 số ngẫu nhiên\r",
+                      "const randomEmail = `${emailPrefix}${randomNumber}@gmail.com`;\r",
+                      "\r",
+                      "pm.environment.set(\"randomFullName\", randomFullName);\r",
+                      "pm.environment.set(\"randomEmail\", randomEmail);\r",
+                      "console.log(\"Email vừa tạo là:\", randomEmail);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "pm.environment.set(\"mb_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"{{randomFullName}}\",\r\n    \"email\": \"{{randomEmail}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "members"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET members",
+          "item": [
+            {
+              "name": "GET all members",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"Dale Carnegie\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Members"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET member_Id",
+          "item": [
+            {
+              "name": "GET existed book successfully",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Members/{{mb_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Members",
+                    "{{mb_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Add a new member",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomFullName = pm.variables.replaceIn(\"{{$randomFullName}}\"); \r",
+                      "const emailPrefix = randomFullName.toLowerCase().replace(/\\s/g, '')\r",
+                      "const randomNumber = Math.floor(Math.random() * 900) + 100; // Thêm 3 số ngẫu nhiên\r",
+                      "const randomEmail = `${emailPrefix}${randomNumber}@gmail.com`;\r",
+                      "\r",
+                      "pm.environment.set(\"randomFullName\", randomFullName);\r",
+                      "pm.environment.set(\"randomEmail\", randomEmail);\r",
+                      "console.log(\"Email vừa tạo là:\", randomEmail);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "pm.environment.set(\"mb_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"{{randomFullName}}\",\r\n    \"email\": \"{{randomEmail}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "members"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "PUT update member",
+          "item": [
+            {
+              "name": "POST Add a new member",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomFullName = pm.variables.replaceIn(\"{{$randomFullName}}\"); \r",
+                      "const emailPrefix = randomFullName.toLowerCase().replace(/\\s/g, '')\r",
+                      "const randomNumber = Math.floor(Math.random() * 900) + 100; // Thêm 3 số ngẫu nhiên\r",
+                      "const randomEmail = `${emailPrefix}${randomNumber}@gmail.com`;\r",
+                      "\r",
+                      "pm.environment.set(\"randomFullName\", randomFullName);\r",
+                      "pm.environment.set(\"randomEmail\", randomEmail);\r",
+                      "console.log(\"Email vừa tạo là:\", randomEmail);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "pm.environment.set(\"mb_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"{{randomFullName}}\",\r\n    \"email\": \"{{randomEmail}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "members"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "UPDATE book successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomFullName = pm.variables.replaceIn(\"{{$randomFullName}}\"); \r",
+                      "const emailPrefix = randomFullName.toLowerCase().replace(/\\s/g, '')\r",
+                      "const randomNumber = Math.floor(Math.random() * 900) + 100; // Thêm 3 số ngẫu nhiên\r",
+                      "const randomEmail = `${emailPrefix}${randomNumber}@gmail.com`;\r",
+                      "\r",
+                      "pm.environment.set(\"randomFullName\", randomFullName);\r",
+                      "pm.environment.set(\"randomEmail\", randomEmail);\r",
+                      "console.log(\"Email vừa tạo là:\", randomEmail);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"member_id\": {{mb_id}},\r\n    \"name\": \"{{randomFullName}}\",\r\n    \"email\": \"{{randomEmail}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Members/{{mb_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Members",
+                    "{{mb_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "PATCH Update paritical member",
+          "item": [
+            {
+              "name": "UPDATE a book successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomFullName = pm.variables.replaceIn(\"{{$randomFullName}}\"); \r",
+                      "const emailPrefix = randomFullName.toLowerCase().replace(/\\s/g, '')\r",
+                      "const randomNumber = Math.floor(Math.random() * 900) + 100; // Thêm 3 số ngẫu nhiên\r",
+                      "const randomEmail = `${emailPrefix}${randomNumber}@gmail.com`;\r",
+                      "\r",
+                      "pm.environment.set(\"randomFullName\", randomFullName);\r",
+                      "pm.environment.set(\"randomEmail\", randomEmail);\r",
+                      "console.log(\"Email vừa tạo là:\", randomEmail);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"member_id\": {{mb_id}},\r\n    \"name\": \"{{randomFullName}}\",\r\n    \"email\": \"{{randomEmail}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Members/{{mb_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Members",
+                    "{{mb_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Add a new member",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomFullName = pm.variables.replaceIn(\"{{$randomFullName}}\"); \r",
+                      "const emailPrefix = randomFullName.toLowerCase().replace(/\\s/g, '')\r",
+                      "const randomNumber = Math.floor(Math.random() * 900) + 100; // Thêm 3 số ngẫu nhiên\r",
+                      "const randomEmail = `${emailPrefix}${randomNumber}@gmail.com`;\r",
+                      "\r",
+                      "pm.environment.set(\"randomFullName\", randomFullName);\r",
+                      "pm.environment.set(\"randomEmail\", randomEmail);\r",
+                      "console.log(\"Email vừa tạo là:\", randomEmail);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "pm.environment.set(\"mb_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"{{randomFullName}}\",\r\n    \"email\": \"{{randomEmail}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "members"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "DELETE Member",
+          "item": [
+            {
+              "name": "POST Add a new member",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "const randomFullName = pm.variables.replaceIn(\"{{$randomFullName}}\"); \r",
+                      "const emailPrefix = randomFullName.toLowerCase().replace(/\\s/g, '')\r",
+                      "const randomNumber = Math.floor(Math.random() * 900) + 100; // Thêm 3 số ngẫu nhiên\r",
+                      "const randomEmail = `${emailPrefix}${randomNumber}@gmail.com`;\r",
+                      "\r",
+                      "pm.environment.set(\"randomFullName\", randomFullName);\r",
+                      "pm.environment.set(\"randomEmail\", randomEmail);\r",
+                      "console.log(\"Email vừa tạo là:\", randomEmail);\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "pm.environment.set(\"mb_id\", res.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"{{randomFullName}}\",\r\n    \"email\": \"{{randomEmail}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "members"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE existed member",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{baseURL}}/members/{{mb_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "members",
+                    "{{mb_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LOANS",
+      "item": [
+        {
+          "name": "POST create loan",
+          "item": [
+            {
+              "name": "Create loan successfully",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Kiểm tra tạo lượt mượn thành công\", function () {\r",
+                      "    pm.response.to.have.status(201); // Thường là 201 cho Create\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"book_id\":{{current_random_book_id}},\r\n    \"member_id\": {{current_random_member_id}}\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Loans",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all members Pre",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "try {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    \r",
+                      "    // Kiểm tra mảng có dữ liệu không\r",
+                      "    if (jsonData && jsonData.length > 0) {\r",
+                      "        \r",
+                      "        // 1. Tạo một chỉ số (index) ngẫu nhiên từ 0 đến (chiều dài mảng - 1)\r",
+                      "        const randomIndex = Math.floor(Math.random() * jsonData.length);\r",
+                      "        \r",
+                      "        // 2. Lấy đối tượng tại vị trí ngẫu nhiên đó\r",
+                      "        const randomItem = jsonData[randomIndex];\r",
+                      "        \r",
+                      "        // 3. Trích xuất ID (dùng book_id hoặc id tùy theo API của bạn)\r",
+                      "        const randomId = randomItem.member_id || randomItem.member_id || randomItem.id;\r",
+                      "\r",
+                      "        if (randomId) {\r",
+                      "            // Lưu vào biến môi trường\r",
+                      "            pm.environment.set(\"current_random_member_id\", randomId); \r",
+                      "            console.log(\"🎲 Đã chọn ngẫu nhiên ID: \" + randomId + \" (tại vị trí \" + randomIndex + \")\");\r",
+                      "        }\r",
+                      "    } else {\r",
+                      "        console.warn(\"⚠️ Danh sách trống, không có gì để chọn.\");\r",
+                      "    }\r",
+                      "} catch (e) {\r",
+                      "    console.error(\"❌ Lỗi xử lý JSON:\", e);\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Members"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all books Pre",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "try {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    \r",
+                      "    // Kiểm tra mảng có dữ liệu không\r",
+                      "    if (jsonData && jsonData.length > 0) {\r",
+                      "        \r",
+                      "        // 1. Tạo một chỉ số (index) ngẫu nhiên từ 0 đến (chiều dài mảng - 1)\r",
+                      "        const randomIndex = Math.floor(Math.random() * jsonData.length);\r",
+                      "        \r",
+                      "        // 2. Lấy đối tượng tại vị trí ngẫu nhiên đó\r",
+                      "        const randomItem = jsonData[randomIndex];\r",
+                      "        \r",
+                      "        // 3. Trích xuất ID (dùng book_id hoặc id tùy theo API của bạn)\r",
+                      "        const randomId = randomItem.book_id || randomItem.member_id || randomItem.id;\r",
+                      "\r",
+                      "        if (randomId) {\r",
+                      "            // Lưu vào biến môi trường\r",
+                      "            pm.environment.set(\"current_random_book_id\", randomId); \r",
+                      "            console.log(\"🎲 Đã chọn ngẫu nhiên ID: \" + randomId + \" (tại vị trí \" + randomIndex + \")\");\r",
+                      "        }\r",
+                      "    } else {\r",
+                      "        console.warn(\"⚠️ Danh sách trống, không có gì để chọn.\");\r",
+                      "    }\r",
+                      "} catch (e) {\r",
+                      "    console.error(\"❌ Lỗi xử lý JSON:\", e);\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET loans",
+          "item": [
+            {
+              "name": "GET all loans successfully",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Loans",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Loans"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET loan_id",
+          "item": [
+            {
+              "name": "Create loan successfully Pre",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Kiểm tra tạo lượt mượn thành công\", function () {\r",
+                      "    pm.response.to.have.status(201); // Thường là 201 cho Create\r",
+                      "});\r",
+                      "\r",
+                      "const res = pm.response.json();\r",
+                      "pm.environment.set(\"ln_id\", res.loan_id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"book_id\":{{current_random_book_id}},\r\n    \"member_id\" : {{current_random_member_id}}\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Loans",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all members Pre",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Đọc dữ liệu trả về\r",
+                      "const jsonData = pm.response.json();\r",
+                      "\r",
+                      "// In ra Console để bạn tự kiểm tra cấu trúc\r",
+                      "console.log(\"Dữ liệu thực tế từ API:\", jsonData);\r",
+                      "\r",
+                      "// Thử lấy ID theo 2 kiểu phổ biến nhất\r",
+                      "const idTrucTiep = jsonData?.[0]?.member_id;\r",
+                      "const idQuaData = jsonData?.data?.[0]?.member_id;\r",
+                      "\r",
+                      "const finalId = idTrucTiep || idQuaData;\r",
+                      "\r",
+                      "if (finalId) {\r",
+                      "    pm.environment.set(\"current_member_id\", finalId);\r",
+                      "    console.log(\"Đã tìm thấy ID: \" + finalId);\r",
+                      "} else {\r",
+                      "    console.error(\"LỖI: Không tìm thấy trường 'id'. Hãy kiểm tra lại tên cột trong DB hoặc cấu trúc JSON.\");\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Members",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Members"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET all books Pre",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "try {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    \r",
+                      "    // Kiểm tra mảng có dữ liệu không\r",
+                      "    if (jsonData && jsonData.length > 0) {\r",
+                      "        \r",
+                      "        // 1. Tạo một chỉ số (index) ngẫu nhiên từ 0 đến (chiều dài mảng - 1)\r",
+                      "        const randomIndex = Math.floor(Math.random() * jsonData.length);\r",
+                      "        \r",
+                      "        // 2. Lấy đối tượng tại vị trí ngẫu nhiên đó\r",
+                      "        const randomItem = jsonData[randomIndex];\r",
+                      "        \r",
+                      "        // 3. Trích xuất ID (dùng book_id hoặc id tùy theo API của bạn)\r",
+                      "        const randomId = randomItem.book_id || randomItem.member_id || randomItem.id;\r",
+                      "\r",
+                      "        if (randomId) {\r",
+                      "            // Lưu vào biến môi trường\r",
+                      "            pm.environment.set(\"current_random_book_id\", randomId); \r",
+                      "            console.log(\"🎲 Đã chọn ngẫu nhiên ID: \" + randomId + \" (tại vị trí \" + randomIndex + \")\");\r",
+                      "        }\r",
+                      "    } else {\r",
+                      "        console.warn(\"⚠️ Danh sách trống, không có gì để chọn.\");\r",
+                      "    }\r",
+                      "} catch (e) {\r",
+                      "    console.error(\"❌ Lỗi xử lý JSON:\", e);\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/books",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET existed loan successfully",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/Loans/{{ln_id}}",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "Loans",
+                    "{{ln_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "PUT update loan",
+          "item": []
+        },
+        {
+          "name": "PATCH update paritical loan",
+          "item": []
+        },
+        {
+          "name": "DELETE loan",
+          "item": []
+        }
+      ]
+    }
+  ]
+}
