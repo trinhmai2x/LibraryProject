@@ -25,10 +25,8 @@ Trong dự án này đã thực hiện:
 
 ## 📂 Cấu trúc thư mục
 * `/Library_practice.postman_collection.json`: File chứa toàn bộ các request API.
-* `/database_scripts.sql`: (Nếu có) Các câu lệnh SQL tạo bảng và data mẫu.
 
-## 📖 Hướng dẫn sử dụng
-1. Tải file `Library_practice.postman_collection.json` về máy.
-2. Mở ứng dụng **Postman**.
-3. Chọn **Import** -> Chọn file vừa tải về.
-4. Cấu hình **Environment** nếu cần và bắt đầu chạy các request.
+## 📸 Test Evidence
+Dưới đây là kết quả chạy test thực tế trên môi trường local:
+
+**1. Create Book Success:**
