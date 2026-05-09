@@ -644,7 +644,7 @@
                       "raw": ""
                     },
                     "url": {
-                      "raw": "{{baseURL}}/books?title=Đắc Nhân Tâm",
+                      "raw": "{{baseURL}}/books?title=Chí Phèo",
                       "host": [
                         "{{baseURL}}"
                       ],
@@ -654,7 +654,7 @@
                       "query": [
                         {
                           "key": "title",
-                          "value": "Đắc Nhân Tâm"
+                          "value": "Chí Phèo"
                         }
                       ]
                     }
@@ -1084,11 +1084,21 @@
                       "const id = pm.environment.get(\"bk_id\");\r",
                       "\r",
                       "const listId = pm.response.json().map(item => item.book_id);\r",
-                      "console.log(listId);\r",
                       "\r",
                       "pm.test(\"Check bookId existed in listId\", () => {\r",
                       "    pm.expect(listId).include(id);\r",
                       "});\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
                       ""
                     ],
                     "type": "text/javascript",
@@ -1125,7 +1135,7 @@
               "response": []
             },
             {
-              "name": "Create book successfully",
+              "name": "Create book successfully (Pre-con)",
               "event": [
                 {
                   "listen": "test",
@@ -1133,7 +1143,13 @@
                     "exec": [
                       "pm.test(\"Thêm mới thành công\", function () {\r",
                       "  pm.response.to.have.status(201);\r",
-                      "});"
+                      "});\r",
+                      "\r",
+                      "const responseData = pm.response.json();\r",
+                      "const bk_id = responseData.id;\r",
+                      "\r",
+                      "pm.environment.set(\"bk_id\", bk_id);\r",
+                      "pm.environment.set(\"id\", bk_id);"
                     ],
                     "type": "text/javascript",
                     "packages": {},
@@ -1290,7 +1306,7 @@
               "response": []
             },
             {
-              "name": "Create book successfully",
+              "name": "Create book successfully (Pre-con)",
               "event": [
                 {
                   "listen": "test",
@@ -1300,8 +1316,11 @@
                       "  pm.response.to.have.status(201);\r",
                       "});\r",
                       "\r",
-                      "const res = pm.response.json();\r",
-                      "pm.environment.set(\"bk_id\", res.id);"
+                      "const responseData = pm.response.json();\r",
+                      "const bk_id = responseData.id;\r",
+                      "\r",
+                      "pm.environment.set(\"bk_id\", bk_id);\r",
+                      "pm.environment.set(\"id\", bk_id);"
                     ],
                     "type": "text/javascript",
                     "packages": {},
@@ -1673,7 +1692,7 @@
               "response": []
             },
             {
-              "name": "Create book successfully",
+              "name": "Create book successfully (Pre-con)",
               "event": [
                 {
                   "listen": "prerequest",
@@ -1704,8 +1723,11 @@
                       "  pm.response.to.have.status(200);\r",
                       "});\r",
                       "\r",
-                      "const res = pm.response.json();\r",
-                      "pm.environment.set(\"bk_id\", res.id);"
+                      "const responseData = pm.response.json();\r",
+                      "const bk_id = responseData.id;\r",
+                      "\r",
+                      "pm.environment.set(\"bk_id\", bk_id);\r",
+                      "pm.environment.set(\"id\", bk_id);"
                     ],
                     "type": "text/javascript",
                     "packages": {},
@@ -1837,7 +1859,7 @@
               "response": []
             },
             {
-              "name": "Create book successfully",
+              "name": "Create book successfully (Pre-con)",
               "event": [
                 {
                   "listen": "prerequest",
@@ -2018,7 +2040,7 @@
               ]
             },
             {
-              "name": "Create book successfully",
+              "name": "Create book successfully (Pre-con)",
               "event": [
                 {
                   "listen": "prerequest",
@@ -2048,9 +2070,11 @@
                       "pm.test(\"Status code is 200\", function () {\r",
                       "  pm.response.to.have.status(200);\r",
                       "});\r",
+                      "const responseData = pm.response.json();\r",
+                      "const bk_id = responseData.id;\r",
                       "\r",
-                      "const res = pm.response.json();\r",
-                      "pm.environment.set(\"bk_id\", res.id);"
+                      "pm.environment.set(\"bk_id\", bk_id);\r",
+                      "pm.environment.set(\"id\", bk_id);"
                     ],
                     "type": "text/javascript",
                     "packages": {},
