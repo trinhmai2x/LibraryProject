@@ -19,6 +19,21 @@
                   "name": "Validate field \"title\" - empty string",
                   "event": [
                     {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
                       "listen": "prerequest",
                       "script": {
                         "exec": [
@@ -31,44 +46,6 @@
                           "const status = _.sample(list);\r",
                           "// console.log(status);\r",
                           "pm.environment.set(\"status\", status);\r",
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    },
-                    {
-                      "listen": "test",
-                      "script": {
-                        "exec": [
-                          "// pm.test(\"Thêm mới thành công\", function () {\r",
-                          "//   pm.response.to.have.status(201);\r",
-                          "// });\r",
-                          "\r",
-                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "})\r",
-                          "\r",
-                          "pm.test(\"Check status\", function (){\r",
-                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
-                          "})\r",
-                          "\r",
-                          "const expectTitle = pm.environment.get(\"title\");\r",
-                          "const expectAuthor = pm.environment.get(\"author\");\r",
-                          "const expectStatus = pm.environment.get(\"status\");\r",
-                          "\r",
-                          "\r",
-                          "\r",
-                          "pm.test(\"validate all fields\", () => {\r",
-                          "    const jsonData = pm.response.json().data; \r",
-                          "    const bookData = jsonData.book || jsonData;\r",
-                          "    pm.expect(bookData.title).to.eql(title);\r",
-                          "    pm.expect(bookData.author).to.eql(author);\r",
-                          "    pm.expect(bookData.status).to.eql(status);\r",
-                          "})\r",
-                          "\r",
-                          "\r",
                           ""
                         ],
                         "type": "text/javascript",
@@ -105,6 +82,20 @@
                   "name": "Validate field \"title\" - contain space",
                   "event": [
                     {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
                       "listen": "prerequest",
                       "script": {
                         "exec": [
@@ -117,44 +108,6 @@
                           "const status = _.sample(list);\r",
                           "// console.log(status);\r",
                           "pm.environment.set(\"status\", status);\r",
-                          ""
-                        ],
-                        "type": "text/javascript",
-                        "packages": {},
-                        "requests": {}
-                      }
-                    },
-                    {
-                      "listen": "test",
-                      "script": {
-                        "exec": [
-                          "// pm.test(\"Thêm mới thành công\", function () {\r",
-                          "//   pm.response.to.have.status(201);\r",
-                          "// });\r",
-                          "\r",
-                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "})\r",
-                          "\r",
-                          "pm.test(\"Check status\", function (){\r",
-                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
-                          "})\r",
-                          "\r",
-                          "const expectTitle = pm.environment.get(\"title\");\r",
-                          "const expectAuthor = pm.environment.get(\"author\");\r",
-                          "const expectStatus = pm.environment.get(\"status\");\r",
-                          "\r",
-                          "\r",
-                          "\r",
-                          "pm.test(\"validate all fields\", () => {\r",
-                          "    const jsonData = pm.response.json().data; \r",
-                          "    const bookData = jsonData.book || jsonData;\r",
-                          "    pm.expect(bookData.title).to.eql(title);\r",
-                          "    pm.expect(bookData.author).to.eql(author);\r",
-                          "    pm.expect(bookData.status).to.eql(status);\r",
-                          "})\r",
-                          "\r",
-                          "\r",
                           ""
                         ],
                         "type": "text/javascript",
@@ -214,33 +167,9 @@
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "// pm.test(\"Thêm mới thành công\", function () {\r",
-                          "//   pm.response.to.have.status(201);\r",
-                          "// });\r",
-                          "\r",
-                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "})\r",
-                          "\r",
-                          "pm.test(\"Check status\", function (){\r",
-                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
-                          "})\r",
-                          "\r",
-                          "const expectTitle = pm.environment.get(\"title\");\r",
-                          "const expectAuthor = pm.environment.get(\"author\");\r",
-                          "const expectStatus = pm.environment.get(\"status\");\r",
-                          "\r",
-                          "\r",
-                          "\r",
-                          "pm.test(\"validate all fields\", () => {\r",
-                          "    const jsonData = pm.response.json().data; \r",
-                          "    const bookData = jsonData.book || jsonData;\r",
-                          "    pm.expect(bookData.title).to.eql(title);\r",
-                          "    pm.expect(bookData.author).to.eql(author);\r",
-                          "    pm.expect(bookData.status).to.eql(status);\r",
-                          "})\r",
-                          "\r",
-                          "\r",
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
                           ""
                         ],
                         "type": "text/javascript",
@@ -277,6 +206,68 @@
                   "name": "Validate field \"title\" - doesn't contain",
                   "event": [
                     {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Validate field \"author\" - doesn't contain",
+                  "event": [
+                    {
                       "listen": "prerequest",
                       "script": {
                         "exec": [
@@ -300,33 +291,9 @@
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "// pm.test(\"Thêm mới thành công\", function () {\r",
-                          "//   pm.response.to.have.status(201);\r",
-                          "// });\r",
-                          "\r",
-                          "pm.expect(\"Thêm mới sách thành công\", function (){\r",
+                          "pm.test(\"Status code is 201\", function () {\r",
                           "    pm.response.to.have.status(201);\r",
-                          "})\r",
-                          "\r",
-                          "pm.test(\"Check status\", function (){\r",
-                          "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
-                          "})\r",
-                          "\r",
-                          "const expectTitle = pm.environment.get(\"title\");\r",
-                          "const expectAuthor = pm.environment.get(\"author\");\r",
-                          "const expectStatus = pm.environment.get(\"status\");\r",
-                          "\r",
-                          "\r",
-                          "\r",
-                          "pm.test(\"validate all fields\", () => {\r",
-                          "    const jsonData = pm.response.json().data; \r",
-                          "    const bookData = jsonData.book || jsonData;\r",
-                          "    pm.expect(bookData.title).to.eql(title);\r",
-                          "    pm.expect(bookData.author).to.eql(author);\r",
-                          "    pm.expect(bookData.status).to.eql(status);\r",
-                          "})\r",
-                          "\r",
-                          "\r",
+                          "});\r",
                           ""
                         ],
                         "type": "text/javascript",
@@ -340,7 +307,193 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Validate field \"author\" - empty string",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Validate field \"status\" - doesn't contain",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"{{author}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Validate field \"status\" - empty string",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"title\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -451,7 +604,472 @@
           "item": [
             {
               "name": "Validate",
-              "item": []
+              "item": [
+                {
+                  "name": "GET all books by title",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?title=Đắc Nhân Tâm",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "title",
+                          "value": "Đắc Nhân Tâm"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET all books by author",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?author=Brazil Paulo Coelho",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "author",
+                          "value": "Brazil Paulo Coelho",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET all books by status",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?status={{status}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "status",
+                          "value": "{{status}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET all books by wrong title",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?title=Đắc Nhân Tâmhehehe",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "title",
+                          "value": "Đắc Nhân Tâmhehehe"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET all books by wrong author",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?author=Brazil Paulo Coelho345345",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "author",
+                          "value": "Brazil Paulo Coelho345345"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET all books by title & status",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?title=holistic Direct&status=available",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "title",
+                          "value": "holistic Direct"
+                        },
+                        {
+                          "key": "status",
+                          "value": "available"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET all books by author & status",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?author=Herbert Crona&status=available",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "author",
+                          "value": "Herbert Crona"
+                        },
+                        {
+                          "key": "status",
+                          "value": "available"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET all books by title & author",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books?title=Account San&author=Olivia Mitchell",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ],
+                      "query": [
+                        {
+                          "key": "title",
+                          "value": "Account San"
+                        },
+                        {
+                          "key": "author",
+                          "value": "Olivia Mitchell"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
             },
             {
               "name": "GET all books",
@@ -583,8 +1201,8 @@
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
                           "});"
                         ],
                         "type": "text/javascript",
@@ -742,6 +1360,269 @@
           "name": "PUT update book",
           "item": [
             {
+              "name": "Validate",
+              "item": [
+                {
+                  "name": "Update non - existed book",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"tittle\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/8754853",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "8754853"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Update field \"title\" - does't contain",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Update field \"title\" - empty string",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Functional",
+              "item": [
+                {
+                  "name": "UPDATE book all fields",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"tittle\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
               "name": "UPDATE book successfully",
               "event": [
                 {
@@ -862,6 +1743,75 @@
           "name": "PATCH Update_paritial_book",
           "item": [
             {
+              "name": "Validate",
+              "item": [
+                {
+                  "name": "Update non - existed book",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "const randomTitle = pm.variables.replaceIn(\"{{$randomWords}}\"); \r",
+                          "const randomAuthor = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+                          "pm.environment.set(\"tittle\", randomTitle);\r",
+                          "pm.environment.set(\"author\", randomAuthor);\r",
+                          "\r",
+                          "const list = [\"available\", \"borrowed\"];\r",
+                          "const status = _.sample(list);\r",
+                          "// console.log(status);\r",
+                          "pm.environment.set(\"status\", status);\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/99999",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "99999"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
               "name": "GET existed book successfully",
               "protocolProfileBehavior": {
                 "disableBodyPruning": true
@@ -914,8 +1864,8 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {\r",
-                      "  pm.response.to.have.status(200);\r",
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "  pm.response.to.have.status(201);\r",
                       "});\r",
                       "\r",
                       "const res = pm.response.json();\r",
@@ -1017,6 +1967,56 @@
         {
           "name": "DELETE Book",
           "item": [
+            {
+              "name": "Validate",
+              "item": [
+                {
+                  "name": "DELETE non - existed book",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseURL}}/Books/8754385",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "Books",
+                        "8754385"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
             {
               "name": "Create book successfully",
               "event": [
