@@ -26,6 +26,9 @@ Trong dự án này đã thực hiện:
 ## 📂 Cấu trúc thư mục
 * `/Library_practice.postman_collection.json`: File chứa toàn bộ các request API.
 
+## API Testing Cheklist
+https://docs.google.com/spreadsheets/d/11w6kQ3tH8g11adcw5IuqhR2KJh3zeRQfpns1EPlNSi8/edit?gid=0#gid=0
+
 ## 📸 Test Evidence
 Dưới đây là kết quả chạy test thực tế trên môi trường local:
 
