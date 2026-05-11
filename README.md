@@ -1,15 +1,20 @@
-# Library Management System - API Testing Project
+# Library Management System API
 
-## 📌 Giới thiệu
-Dự án này là bộ sưu tập (Collection) các API dùng để quản lý hệ thống thư viện, được xây dựng trong quá trình thực hành kỹ năng Testing. 
+## Giới thiệu
 Dự án tập trung vào việc thiết kế cấu trúc dữ liệu, quản lý API bằng Postman và kiểm tra tính đúng đắn của luồng nghiệp vụ.
 
-## 🛠 Công cụ sử dụng
-* **Postman**: Thiết kế và kiểm thử API.
-* **MySQL**: Thiết kế cơ sở dữ liệu.
+  
+## Công cụ sử dụng
+* **Backend**: Node.js, Express.js
+* **Database**: MySQL
+* **Authentication**: JWT, Bcrypt
+* Testing & Docs: Postman
+
+## API Documentation
+https://documenter.getpostman.com/view/28056069/2sBXqNnK91
 
 ## 🚀 Các tính năng chính (API Endpoints)
-Hệ thống hỗ trợ các luồng nghiệp vụ cơ bản:
+* **Phân quyền**: Sử dụng JWT (JSON Web Token) để phân biệt quyền giữa Admin và User
 * **Quản lý Sách**: Thêm mới, cập nhật thông tin và xóa sách.
 * **Quản lý Độc giả**: Đăng ký thông tin người mượn.
 * **Quản lý Mượn sách**: Thực hiện các yêu cầu mượn sách.
