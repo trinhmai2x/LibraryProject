@@ -7,6 +7,115 @@
   },
   "item": [
     {
+      "name": "AUTH",
+      "item": [
+        {
+          "name": "CreateToken",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Check status code\", () => {\r",
+                  "    pm.expect(pm.response.code).eql(200);\r",
+                  "})\r",
+                  "const res = pm.response.json();\r",
+                  "pm.environment.set(\"token\", res.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"Admin\",\r\n    \"password\": \"Abc@123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/login",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "CreateToken",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"Admin\",\r\n    \"password\": \"Abc@123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/login",
+                  "host": [
+                    "{{baseURL}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "225"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"e1-4PZrw/ex5O86kDAu2WKUM+oW5S0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 11 May 2026 14:09:20 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Đăng nhập thành công!\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc4NTA4NTYwLCJleHAiOjE3Nzg1MTIxNjB9.3dKUA0j0iFRpIR0qlef1WSm67f6_jQ78QIxBePALEFo\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "BOOK",
       "item": [
         {
@@ -55,6 +164,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -76,7 +195,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"title\" - empty string",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"title\": \"\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "42"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"2a-6rV9bfUbP92Ixis/7KCa1zXjiTc\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:16:47 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"error\": \"Hãy nhập tiêu đề sách!\"\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Validate field \"title\" - contain space",
@@ -117,6 +297,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -138,7 +328,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"title\" - contain space",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"title\": \"     {{title}}       \",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "85"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"55-Xyc1pynQVFhH92w9P6vtN6UjHTc\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:17:06 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"error\": \"Tiêu đề không được chứa nhiều khoảng trắng liên tiếp!\"\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Validate field \"title\" - special character",
@@ -179,6 +430,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -200,7 +461,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"title\" - special character",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"title\": \"$#^$^%$^{{title}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "76"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"4c-gsSM83ZVC5n6C+TmBNTiJuBnWKQ\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:17:12 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"error\": \"Tiêu đề sách không được chứa ký tự đặc biệt!\"\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Validate field \"title\" - doesn't contain",
@@ -241,6 +563,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -262,7 +594,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"title\" - doesn't contain",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "46"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"2e-KZz/zT5HrnPynpMau4l7Tt4mZT4\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:17:23 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"error\": \"Tiêu đề sách là bắt buộc\"\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Validate field \"author\" - doesn't contain",
@@ -303,6 +696,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -324,7 +727,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"author\" - doesn't contain",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "129"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"81-DBuCAcbTCUQQETHXNqy91Mjom0I\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:17:32 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"id\": 157,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"Micronesia Island bluetooth\",\n        \"status\": \"borrowed\"\n    }\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Validate field \"author\" - empty string",
@@ -365,6 +829,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -386,7 +860,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"author\" - empty string",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "156"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"9c-aDcn3YZcqEuNMd3ckLl+n3oDbA0\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:17:41 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"id\": 158,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"neutral reinvent alliance matrices invoice\",\n        \"author\": \"\",\n        \"status\": \"borrowed\"\n    }\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Validate field \"status\" - doesn't contain",
@@ -427,6 +962,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -448,7 +993,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"status\" - doesn't contain",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"{{author}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "76"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"4c-gsSM83ZVC5n6C+TmBNTiJuBnWKQ\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:17:49 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"error\": \"Tiêu đề sách không được chứa ký tự đặc biệt!\"\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Validate field \"status\" - empty string",
@@ -489,6 +1095,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "POST",
                     "header": [],
                     "body": {
@@ -510,7 +1126,68 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Validate field \"status\" - empty string",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{   \r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "160"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"a0-Idmrp2l42ZY1cw0nwajQvsZSrWU\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:19:07 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"id\": 161,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"Georgia Kentucky payment Forks\",\n        \"author\": \"Ronnie Schimmel\",\n        \"status\": \"available\"\n    }\n}"
+                    }
+                  ]
                 }
               ]
             },
@@ -521,15 +1198,7 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "// pm.test(\"Thêm mới thành công\", function () {\r",
-                      "//   pm.response.to.have.status(201);\r",
-                      "// });\r",
-                      "\r",
-                      "pm.expect(\"Thêm mới sách thành công\", function (){\r",
-                      "    pm.response.to.have.status(201);\r",
-                      "})\r",
-                      "\r",
-                      "pm.test(\"Check status\", function (){\r",
+                      "pm.test(\"Status code is 201\", function (){\r",
                       "    pm.expect(pm.response.json().message).to.eql(\"Thêm mới sách thành công!\");\r",
                       "})\r",
                       "\r",
@@ -539,7 +1208,7 @@
                       "\r",
                       "const book = pm.response.json().data_created;\r",
                       "\r",
-                      "pm.test(\"validate all fields\", () => {\r",
+                      "pm.test(\"Validate all fields\", () => {\r",
                       "    pm.expect(book.title).to.eql(expectedTitle);\r",
                       "    pm.expect(book.author).to.eql(expectedAuthor);\r",
                       "    pm.expect(book.status).to.eql(expectedStatus);\r",
@@ -574,6 +1243,16 @@
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}4545",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
@@ -595,7 +1274,128 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Valid token",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "172"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"ac-o7ZV6K7tiOcM2O5lNtW92nm7EoM\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:14:12 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"id\": 156,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"Assistant reboot Arabia enterprise Developer\",\n        \"author\": \"Tom Rosenbaum\",\n        \"status\": \"available\"\n    }\n}"
+                },
+                {
+                  "name": "Invalid/Expired token",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"{{title}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "64"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"40-6Dg0IE7RZy+rncZnj7mOeSFmjEY\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:15:49 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Lỗi: Token không hợp lệ hoặc hết hạn!\"\n}"
+                }
+              ]
             }
           ]
         },
@@ -659,7 +1459,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by title",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?title=Chí Phèo",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "title",
+                              "value": "Chí Phèo"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "76"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"4c-m7mYCwkjKyDNAstC/sYAhVBr6gU\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:20:37 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n    {\n        \"book_id\": 76,\n        \"title\": \"Chí Phèo\",\n        \"author\": \"Nam Cao\",\n        \"status\": \"borrowed\"\n    }\n]"
+                    }
+                  ]
                 },
                 {
                   "name": "GET all books by author",
@@ -716,7 +1578,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by author",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?author=Brazil Paulo Coelho",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "author",
+                              "value": "Brazil Paulo Coelho"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "91"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"5b-iHIcjfpl3H+sGkzECi9UeTMD2AI\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:20:47 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n    {\n        \"book_id\": 2,\n        \"title\": \"Nhà Giả Kim\",\n        \"author\": \"Brazil Paulo Coelho\",\n        \"status\": \"borrowed\"\n    }\n]"
+                    }
+                  ]
                 },
                 {
                   "name": "GET all books by status",
@@ -775,7 +1699,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by status",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?status={{status}}",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "status",
+                              "value": "{{status}}"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "6836"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"1ab4-HC8+O0noaFBk/wIqjc9xZdW5M8I\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:20:55 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n    {\n        \"book_id\": 6,\n        \"title\": \"Account facilitate back-end\",\n        \"author\": \"Erika Nienow\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 8,\n        \"title\": \"info-mediaries payment\",\n        \"author\": \"Joey Cruickshank\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 13,\n        \"title\": \"haptic Bypass\",\n        \"author\": \"Lydia Orn\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 14,\n        \"title\": \"Loan Borders Tools channels\",\n        \"author\": \"Tara Lesch\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 23,\n        \"title\": \"holistic Central panel methodology\",\n        \"author\": \"Jeremy Hills\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 24,\n        \"title\": \"Cambridgeshire extranet Avon\",\n        \"author\": \"Pete Monahan\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 25,\n        \"title\": \"pink ADP\",\n        \"author\": \"Ricardo Schamberger\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 26,\n        \"title\": \"Specialist Computers\",\n        \"author\": \"Paul Quigley\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 32,\n        \"title\": \"e-markets Customer Kansas\",\n        \"author\": \"Guy O'Reilly\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 36,\n        \"title\": \"Frozen wireless Avon\",\n        \"author\": \"Josh Botsford DVM\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 37,\n        \"title\": \"Handmade networks\",\n        \"author\": \"Geraldine Kirlin\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 42,\n        \"title\": \"program generating enhance\",\n        \"author\": \"Erica Haley\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 49,\n        \"title\": \"auxiliary Islands Metal\",\n        \"author\": \"Dr. Becky Robel\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 50,\n        \"title\": \"cultivate turn-key Loan Maine productize\",\n        \"author\": \"Krystal Kub\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 51,\n        \"title\": \"withdrawal Dynamic web-enabled relationships intranet\",\n        \"author\": \"Otis Rolfson\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 58,\n        \"title\": \"Operations paradigms\",\n        \"author\": \"David Hauck\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 61,\n        \"title\": \"alarm transmitting\",\n        \"author\": \"Betsy Stoltenberg\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 62,\n        \"title\": \"primary Carolina Global synergize Greenland\",\n        \"author\": \"Hannah Russel\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 64,\n        \"title\": \"viral transmit Berkshire Customizable frictionless\",\n        \"author\": \"Mrs. Troy Volkman\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 65,\n        \"title\": \"Infrastructure Intranet hard Customer Director\",\n        \"author\": \"Olga Kertzmann\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 66,\n        \"title\": \"applications sensor Indiana Tools synthesize\",\n        \"author\": \"Herbert Crona\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 67,\n        \"title\": \"Account San\",\n        \"author\": \"Olivia Mitchell\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 68,\n        \"title\": \"holistic Direct\",\n        \"author\": \"Vivian Mayert\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 69,\n        \"title\": \"Bedfordshire Denmark revolutionary Cotton Human\",\n        \"author\": \"Kelley Hansen\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 70,\n        \"title\": \"Assistant content-based Sausages Public-key\",\n        \"author\": \"Teresa Kessler IV\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 72,\n        \"title\": \"Soft Market mindshare\",\n        \"author\": \"Josephine Wiza II\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 73,\n        \"title\": \"Cotton Dakota\",\n        \"author\": null,\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 75,\n        \"title\": \"Soap Landing synergy systemic\",\n        \"author\": \"\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 78,\n        \"title\": \"Locks Computers\",\n        \"author\": \"Salvador Schiller\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 79,\n        \"title\": \"transmitting Ball Practical neutral\",\n        \"author\": \"Carolyn Roberts\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 80,\n        \"title\": \"Awesome optical convergence Berkshire\",\n        \"author\": \"Kate Medhurst\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 81,\n        \"title\": \"Prairie Cambodia Computer Azerbaijan granular\",\n        \"author\": \"Mr. Kent Schmidt\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 82,\n        \"title\": \"Rustic Cambridgeshire Nevis Namibia\",\n        \"author\": null,\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 83,\n        \"title\": \"payment Fish\",\n        \"author\": \"\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 84,\n        \"title\": \"Practical copying Port FTP\",\n        \"author\": \"Myra Ratke\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 85,\n        \"title\": \"Nebraska Total proactive\",\n        \"author\": \"Judy Prosacco\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 86,\n        \"title\": \"Pants Salad\",\n        \"author\": \"Enrique Jenkins\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 93,\n        \"title\": \"Tala Dominican Vista\",\n        \"author\": \"Emilio Dibbert\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 95,\n        \"title\": \"Fresh Illinois\",\n        \"author\": \"Marcia Hyatt DDS\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 96,\n        \"title\": \"Chips Shoes\",\n        \"author\": \"Jacob Graham\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 98,\n        \"title\": \"uniform Chief Ouguiya Car Representative\",\n        \"author\": \"Jonathan Rath\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 100,\n        \"title\": \"Auto Skyway Practical Bike\",\n        \"author\": \"Lee Dare Sr.\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 101,\n        \"title\": \"bypassing New invoice\",\n        \"author\": \"Ms. Lyle Abernathy\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 102,\n        \"title\": \"copy architecture strategize\",\n        \"author\": \"Myrtle Barton\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 103,\n        \"title\": \"Exclusive implement\",\n        \"author\": \"Eva Wisoky\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 105,\n        \"title\": \"Somoni olive Chair\",\n        \"author\": \"Tommie Watsica\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 106,\n        \"title\": \"Glen Human\",\n        \"author\": \"Mrs. Ana Bode\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 112,\n        \"title\": \"definition auxiliary Armenian\",\n        \"author\": \"Jenna Goyette\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 113,\n        \"title\": \"Tasty Aruba Buckinghamshire\",\n        \"author\": null,\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 114,\n        \"title\": \"Markets Bedfordshire\",\n        \"author\": \"\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 115,\n        \"title\": \"distributed invoice XSS\",\n        \"author\": \"Raymond Runolfsson\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 116,\n        \"title\": \"Bacon online services\",\n        \"author\": \"Gloria Blanda\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 118,\n        \"title\": \"asynchronous Incredible firewall\",\n        \"author\": \"Jacob Bogan Sr.\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 132,\n        \"title\": \"intelligence interactive deposit Outdoors parsing\",\n        \"author\": \"Patsy Lockman MD\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 135,\n        \"title\": \"strategy connect azure Computers\",\n        \"author\": \"Anna Zemlak\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 136,\n        \"title\": \"Groves paradigms firewall\",\n        \"author\": \"Ed Boehm\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 137,\n        \"title\": \"PCI Virginia\",\n        \"author\": \"Myrtle Mills\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 139,\n        \"title\": \"quantifying Home Namibia\",\n        \"author\": \"Marvin Shields\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 140,\n        \"title\": \"transmit Delaware Buckinghamshire\",\n        \"author\": \"Darren Hane\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 144,\n        \"title\": \"District indigo evolve\",\n        \"author\": \"Tricia Cassin\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 145,\n        \"title\": \"Nebraska compressing tangible\",\n        \"author\": \"Mr. Carroll Hand\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 146,\n        \"title\": \"Tools Metal\",\n        \"author\": \"Caroline Bruen\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 150,\n        \"title\": \"Music synthesize\",\n        \"author\": \"Garry Gleason\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 153,\n        \"title\": \"Cotton silver Handmade Borders\",\n        \"author\": \"Sam Cole\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 155,\n        \"title\": \"compressing niches Africa\",\n        \"author\": \"Ruben Wyman\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 156,\n        \"title\": \"Assistant reboot Arabia enterprise Developer\",\n        \"author\": \"Tom Rosenbaum\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 159,\n        \"title\": \"Tools Concrete\",\n        \"author\": \"Glen O'Keefe\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 160,\n        \"title\": \"index red\",\n        \"author\": \"Josefina Harris\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 161,\n        \"title\": \"Georgia Kentucky payment Forks\",\n        \"author\": \"Ronnie Schimmel\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 162,\n        \"title\": \"Incredible Quality\",\n        \"author\": \"Pearl Rippin PhD\",\n        \"status\": \"available\"\n    }\n]"
+                    }
+                  ]
                 },
                 {
                   "name": "GET all books by wrong title",
@@ -816,7 +1802,7 @@
                       "raw": ""
                     },
                     "url": {
-                      "raw": "{{baseURL}}/books?title=Đắc Nhân Tâmhehehe",
+                      "raw": "{{baseURL}}/books?title=Đắc Nhân Tâm12345",
                       "host": [
                         "{{baseURL}}"
                       ],
@@ -826,12 +1812,74 @@
                       "query": [
                         {
                           "key": "title",
-                          "value": "Đắc Nhân Tâmhehehe"
+                          "value": "Đắc Nhân Tâm12345"
                         }
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by wrong title",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?title=Đắc Nhân Tâm12345",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "title",
+                              "value": "Đắc Nhân Tâm12345"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "2"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:31:00 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[]"
+                    }
+                  ]
                 },
                 {
                   "name": "GET all books by wrong author",
@@ -887,7 +1935,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by wrong author",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?author=Brazil Paulo Coelho345345",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "author",
+                              "value": "Brazil Paulo Coelho345345"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "2"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:21:35 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[]"
+                    }
+                  ]
                 },
                 {
                   "name": "GET all books by title & status",
@@ -947,7 +2057,73 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by title & status",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?title=holistic Direct&status=available",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "title",
+                              "value": "holistic Direct"
+                            },
+                            {
+                              "key": "status",
+                              "value": "available"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "88"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"58-FdEH+aeS3+jQnKUJFyzHzNffCyk\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:21:44 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n    {\n        \"book_id\": 68,\n        \"title\": \"holistic Direct\",\n        \"author\": \"Vivian Mayert\",\n        \"status\": \"available\"\n    }\n]"
+                    }
+                  ]
                 },
                 {
                   "name": "GET all books by author & status",
@@ -1007,7 +2183,73 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by author & status",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?author=Herbert Crona&status=available",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "author",
+                              "value": "Herbert Crona"
+                            },
+                            {
+                              "key": "status",
+                              "value": "available"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "117"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"75-EiCke9+BOHLWB6oKqBCRC1WiGRU\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:21:51 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n    {\n        \"book_id\": 66,\n        \"title\": \"applications sensor Indiana Tools synthesize\",\n        \"author\": \"Herbert Crona\",\n        \"status\": \"available\"\n    }\n]"
+                    }
+                  ]
                 },
                 {
                   "name": "GET all books by title & author",
@@ -1067,7 +2309,73 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET all books by title & author",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books?title=Account San&author=Olivia Mitchell",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books"
+                          ],
+                          "query": [
+                            {
+                              "key": "title",
+                              "value": "Account San"
+                            },
+                            {
+                              "key": "author",
+                              "value": "Olivia Mitchell"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "86"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"56-v4h3q4gSjsjaOZLXIP6YjyNDtG8\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:22:00 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n    {\n        \"book_id\": 67,\n        \"title\": \"Account San\",\n        \"author\": \"Olivia Mitchell\",\n        \"status\": \"available\"\n    }\n]"
+                    }
+                  ]
                 }
               ]
             },
@@ -1132,7 +2440,76 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "GET all books",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json",
+                      "description": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "15683"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"3d43-JrkUJZWKz1zK9Z5jNyOAs600SYM\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:25:57 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [
+                    {
+                      "expires": "Invalid Date",
+                      "domain": "",
+                      "path": ""
+                    }
+                  ],
+                  "body": "[\n    {\n        \"book_id\": 1,\n        \"title\": \"Đắc Nhân Tâm\",\n        \"author\": \"Dale Carnegie\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 2,\n        \"title\": \"Nhà Giả Kim\",\n        \"author\": \"Brazil Paulo Coelho\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 6,\n        \"title\": \"Account facilitate back-end\",\n        \"author\": \"Erika Nienow\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 7,\n        \"title\": \"COM withdrawal Mouse\",\n        \"author\": \"Ricardo Stiedemann DVM\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 8,\n        \"title\": \"info-mediaries payment\",\n        \"author\": \"Joey Cruickshank\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 9,\n        \"title\": \"needs-based Awesome fuchsia\",\n        \"author\": \"Belinda Goodwin\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 10,\n        \"title\": \"Implemented program secured\",\n        \"author\": \"Anne Toy\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 11,\n        \"title\": \"Inlet Cheese Centralized reboot systematic\",\n        \"author\": \"Lori Kub\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 12,\n        \"title\": \"Specialist violet Tasty turn-key Home\",\n        \"author\": \"Celia Grimes Sr.\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 13,\n        \"title\": \"haptic Bypass\",\n        \"author\": \"Lydia Orn\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 14,\n        \"title\": \"Loan Borders Tools channels\",\n        \"author\": \"Tara Lesch\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 15,\n        \"title\": \"mesh Legacy\",\n        \"author\": \"Michele Mayert\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 16,\n        \"title\": \"Xuân mai\",\n        \"author\": \"Xuân Mai\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 17,\n        \"title\": \"Money transmitter unleash Palladium\",\n        \"author\": \"Anthony Ryan\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 18,\n        \"title\": \"Dong invoice program\",\n        \"author\": \"Cheryl Schiller\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 19,\n        \"title\": \"Wooden transmit Berkshire Loan\",\n        \"author\": \"Pablo Jacobi\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 20,\n        \"title\": \"strategize Optimization Unbranded Michigan withdrawal\",\n        \"author\": \"Rickey Haley\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 21,\n        \"title\": \"redundant Wooden Borders help-desk\",\n        \"author\": \"Hope Spencer\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 22,\n        \"title\": \"blue Steel XML\",\n        \"author\": \"Mildred Jones\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 23,\n        \"title\": \"holistic Central panel methodology\",\n        \"author\": \"Jeremy Hills\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 24,\n        \"title\": \"Cambridgeshire extranet Avon\",\n        \"author\": \"Pete Monahan\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 25,\n        \"title\": \"pink ADP\",\n        \"author\": \"Ricardo Schamberger\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 26,\n        \"title\": \"Specialist Computers\",\n        \"author\": \"Paul Quigley\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 27,\n        \"title\": \"Roads Shilling dynamic Rustic\",\n        \"author\": \"Kari Lubowitz\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 28,\n        \"title\": \"navigating Colorado cultivate Analyst monitor\",\n        \"author\": \"Randy Goldner MD\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 29,\n        \"title\": \"input Tunisian hack innovative Account\",\n        \"author\": \"Miss Joey Barton\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 30,\n        \"title\": \"New Loan Garden\",\n        \"author\": \"Clayton Zulauf\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 31,\n        \"title\": \"Unbranded Arkansas Practical Loan\",\n        \"author\": \"Violet Kerluke\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 32,\n        \"title\": \"e-markets Customer Kansas\",\n        \"author\": \"Guy O'Reilly\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 35,\n        \"title\": \"support Self-enabling Consultant Kansas Harbor\",\n        \"author\": \"Eula O'Keefe\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 36,\n        \"title\": \"Frozen wireless Avon\",\n        \"author\": \"Josh Botsford DVM\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 37,\n        \"title\": \"Handmade networks\",\n        \"author\": \"Geraldine Kirlin\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 38,\n        \"title\": \"Rustic Mozambique models integrated Fresh\",\n        \"author\": \"Florence Torp\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 39,\n        \"title\": \"generating Coordinator Automotive orange Bedfordshire\",\n        \"author\": \"Joel Jacobson\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 40,\n        \"title\": \"payment conglomeration France\",\n        \"author\": \"Jessie Schaefer\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 41,\n        \"title\": \"AI Music alarm drive Operations\",\n        \"author\": \"Santiago Davis\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 42,\n        \"title\": \"program generating enhance\",\n        \"author\": \"Erica Haley\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 43,\n        \"title\": \"facilitate compressing object-oriented Darussalam Netherlands\",\n        \"author\": \"Carroll Johnston\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 44,\n        \"title\": \"salmon high-level white Buckinghamshire\",\n        \"author\": \"Grady Greenholt\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 45,\n        \"title\": \"Account Re-contextualized\",\n        \"author\": \"Kent Erdman\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 46,\n        \"title\": \"Organized architectures Dinar\",\n        \"author\": \"Ms. Melvin Torphy\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 47,\n        \"title\": \"Frozen Berkshire Account violet hybrid\",\n        \"author\": \"Sophia Johnson\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 48,\n        \"title\": \"Mississippi Web protocol synergize bus\",\n        \"author\": \"Arlene Lang\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 49,\n        \"title\": \"auxiliary Islands Metal\",\n        \"author\": \"Dr. Becky Robel\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 50,\n        \"title\": \"cultivate turn-key Loan Maine productize\",\n        \"author\": \"Krystal Kub\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 51,\n        \"title\": \"withdrawal Dynamic web-enabled relationships intranet\",\n        \"author\": \"Otis Rolfson\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 52,\n        \"title\": \"expedite Northern Pennsylvania internet\",\n        \"author\": \"Amy Langworth\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 53,\n        \"title\": \"Cambridgeshire state cross-platform Common Venezuela\",\n        \"author\": \"Dora Fay\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 54,\n        \"title\": \"Sports Borders\",\n        \"author\": \"Lynn Tillman\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 55,\n        \"title\": \"Gloves Quality eyeballs fuchsia Account\",\n        \"author\": \"Jennifer Lindgren\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 56,\n        \"title\": \"teal Functionality connect Money\",\n        \"author\": \"Lana Boehm V\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 57,\n        \"title\": \"Technician Handcrafted\",\n        \"author\": \"Douglas Morissette\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 58,\n        \"title\": \"Operations paradigms\",\n        \"author\": \"David Hauck\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 59,\n        \"title\": \"\",\n        \"author\": \"Clara Lesch\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 60,\n        \"title\": \"Keyboard mindshare integrated sexy\",\n        \"author\": \"Erika Kshlerin\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 61,\n        \"title\": \"alarm transmitting\",\n        \"author\": \"Betsy Stoltenberg\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 62,\n        \"title\": \"primary Carolina Global synergize Greenland\",\n        \"author\": \"Hannah Russel\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 63,\n        \"title\": \"Books Savings Lead\",\n        \"author\": \"Mr. Jon Lakin\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 64,\n        \"title\": \"viral transmit Berkshire Customizable frictionless\",\n        \"author\": \"Mrs. Troy Volkman\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 65,\n        \"title\": \"Infrastructure Intranet hard Customer Director\",\n        \"author\": \"Olga Kertzmann\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 66,\n        \"title\": \"applications sensor Indiana Tools synthesize\",\n        \"author\": \"Herbert Crona\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 67,\n        \"title\": \"Account San\",\n        \"author\": \"Olivia Mitchell\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 68,\n        \"title\": \"holistic Direct\",\n        \"author\": \"Vivian Mayert\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 69,\n        \"title\": \"Bedfordshire Denmark revolutionary Cotton Human\",\n        \"author\": \"Kelley Hansen\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 70,\n        \"title\": \"Assistant content-based Sausages Public-key\",\n        \"author\": \"Teresa Kessler IV\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 72,\n        \"title\": \"Soft Market mindshare\",\n        \"author\": \"Josephine Wiza II\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 73,\n        \"title\": \"Cotton Dakota\",\n        \"author\": null,\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 74,\n        \"title\": \"Nicaragua Granite target\",\n        \"author\": \"Christine Kulas\",\n        \"status\": null\n    },\n    {\n        \"book_id\": 75,\n        \"title\": \"Soap Landing synergy systemic\",\n        \"author\": \"\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 76,\n        \"title\": \"Chí Phèo\",\n        \"author\": \"Nam Cao\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 77,\n        \"title\": \"Human Canyon panel program\",\n        \"author\": \"Cecilia Abshire\",\n        \"status\": null\n    },\n    {\n        \"book_id\": 78,\n        \"title\": \"Locks Computers\",\n        \"author\": \"Salvador Schiller\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 79,\n        \"title\": \"transmitting Ball Practical neutral\",\n        \"author\": \"Carolyn Roberts\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 80,\n        \"title\": \"Awesome optical convergence Berkshire\",\n        \"author\": \"Kate Medhurst\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 81,\n        \"title\": \"Prairie Cambodia Computer Azerbaijan granular\",\n        \"author\": \"Mr. Kent Schmidt\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 82,\n        \"title\": \"Rustic Cambridgeshire Nevis Namibia\",\n        \"author\": null,\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 83,\n        \"title\": \"payment Fish\",\n        \"author\": \"\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 84,\n        \"title\": \"Practical copying Port FTP\",\n        \"author\": \"Myra Ratke\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 85,\n        \"title\": \"Nebraska Total proactive\",\n        \"author\": \"Judy Prosacco\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 86,\n        \"title\": \"Pants Salad\",\n        \"author\": \"Enrique Jenkins\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 87,\n        \"title\": \"Unbranded Loaf Tasty compressing\",\n        \"author\": \"Arlene Boehm\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 88,\n        \"title\": \"Minnesota Small\",\n        \"author\": \"Winston Schulist\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 89,\n        \"title\": \"responsive yellow grey Handcrafted\",\n        \"author\": \"Frederick Armstrong\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 90,\n        \"title\": \"navigating Berkshire Fresh Handmade fuchsia\",\n        \"author\": null,\n        \"status\": null\n    },\n    {\n        \"book_id\": 91,\n        \"title\": \"Soft Borders invoice SDR\",\n        \"author\": \"Mr. April White\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 92,\n        \"title\": \"infrastructures leverage scalable array Branding\",\n        \"author\": \"Mattie Haag\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 93,\n        \"title\": \"Tala Dominican Vista\",\n        \"author\": \"Emilio Dibbert\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 94,\n        \"title\": \"synthesize Refined Rustic\",\n        \"author\": \"Yvette Brakus\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 95,\n        \"title\": \"Fresh Illinois\",\n        \"author\": \"Marcia Hyatt DDS\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 96,\n        \"title\": \"Chips Shoes\",\n        \"author\": \"Jacob Graham\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 97,\n        \"title\": \"concept Home B2C\",\n        \"author\": \"Francisco Hamill\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 98,\n        \"title\": \"uniform Chief Ouguiya Car Representative\",\n        \"author\": \"Jonathan Rath\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 99,\n        \"title\": \"Licensed portals digital\",\n        \"author\": \"Carlton Lueilwitz\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 100,\n        \"title\": \"Auto Skyway Practical Bike\",\n        \"author\": \"Lee Dare Sr.\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 101,\n        \"title\": \"bypassing New invoice\",\n        \"author\": \"Ms. Lyle Abernathy\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 102,\n        \"title\": \"copy architecture strategize\",\n        \"author\": \"Myrtle Barton\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 103,\n        \"title\": \"Exclusive implement\",\n        \"author\": \"Eva Wisoky\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 104,\n        \"title\": \"Intuitive capacitor online Tuna Fantastic\",\n        \"author\": \"Philip Christiansen\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 105,\n        \"title\": \"Somoni olive Chair\",\n        \"author\": \"Tommie Watsica\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 106,\n        \"title\": \"Glen Human\",\n        \"author\": \"Mrs. Ana Bode\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 107,\n        \"title\": \"mobile efficient\",\n        \"author\": \"Roderick Moen\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 108,\n        \"title\": \"target HDD Car Operations\",\n        \"author\": \"Ellis Okuneva\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 110,\n        \"title\": \"Concrete Cotton functionalities Avon Island\",\n        \"author\": \"Elvira Emard\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 111,\n        \"title\": \"Fresh Global navigate Account Shirt\",\n        \"author\": \"Elena Terry\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 112,\n        \"title\": \"definition auxiliary Armenian\",\n        \"author\": \"Jenna Goyette\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 113,\n        \"title\": \"Tasty Aruba Buckinghamshire\",\n        \"author\": null,\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 114,\n        \"title\": \"Markets Bedfordshire\",\n        \"author\": \"\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 115,\n        \"title\": \"distributed invoice XSS\",\n        \"author\": \"Raymond Runolfsson\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 116,\n        \"title\": \"Bacon online services\",\n        \"author\": \"Gloria Blanda\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 117,\n        \"title\": \"infomediaries Response calculating Bedfordshire\",\n        \"author\": \"John Kuvalis\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 118,\n        \"title\": \"asynchronous Incredible firewall\",\n        \"author\": \"Jacob Bogan Sr.\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 119,\n        \"title\": \"Berkshire PNG innovative invoice Gorgeous\",\n        \"author\": \"Terri Pfannerstill\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 120,\n        \"title\": \"Intranet withdrawal directional\",\n        \"author\": \"Jean Feil\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 121,\n        \"title\": \"Michigan Guarani\",\n        \"author\": \"Mack Davis\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 122,\n        \"title\": \"Producer Paradigm streamline black mindshare\",\n        \"author\": \"Kerry O'Conner\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 123,\n        \"title\": \"Jewelery engineer\",\n        \"author\": \"Josephine Schuppe\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 124,\n        \"title\": \"visionary Hampshire interface\",\n        \"author\": \"Jesse Doyle\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 125,\n        \"title\": \"Synchronised Singapore utilisation Berkshire architecture\",\n        \"author\": \"Regina Daniel\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 126,\n        \"title\": \"lime flexibility transmitter York\",\n        \"author\": \"Melvin Gerhold\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 127,\n        \"title\": \"state withdrawal maroon\",\n        \"author\": \"Ramon Shanahan\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 128,\n        \"title\": \"plum relationships synergize\",\n        \"author\": \"Audrey Abbott\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 129,\n        \"title\": \"Loan deposit invoice\",\n        \"author\": \"Roger Crooks\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 130,\n        \"title\": \"deposit Idaho Internal Chips Computer\",\n        \"author\": \"Rogelio McCullough\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 132,\n        \"title\": \"intelligence interactive deposit Outdoors parsing\",\n        \"author\": \"Patsy Lockman MD\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 133,\n        \"title\": \"Oro Incredible Nebraska secondary\",\n        \"author\": null,\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 134,\n        \"title\": \"Michigan Bike Officer Bedfordshire Handmade\",\n        \"author\": \"\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 135,\n        \"title\": \"strategy connect azure Computers\",\n        \"author\": \"Anna Zemlak\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 136,\n        \"title\": \"Groves paradigms firewall\",\n        \"author\": \"Ed Boehm\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 137,\n        \"title\": \"PCI Virginia\",\n        \"author\": \"Myrtle Mills\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 138,\n        \"title\": \"Configuration Shoes Investor invoice Lira\",\n        \"author\": \"Mrs. Joe Mohr\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 139,\n        \"title\": \"quantifying Home Namibia\",\n        \"author\": \"Marvin Shields\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 140,\n        \"title\": \"transmit Delaware Buckinghamshire\",\n        \"author\": \"Darren Hane\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 141,\n        \"title\": \"Sports Berkshire Designer yellow Jewelery\",\n        \"author\": \"Kari Klocko IV\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 142,\n        \"title\": \"program Borders portals Fresh\",\n        \"author\": null,\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 143,\n        \"title\": \"Checking connect\",\n        \"author\": \"\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 144,\n        \"title\": \"District indigo evolve\",\n        \"author\": \"Tricia Cassin\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 145,\n        \"title\": \"Nebraska compressing tangible\",\n        \"author\": \"Mr. Carroll Hand\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 146,\n        \"title\": \"Tools Metal\",\n        \"author\": \"Caroline Bruen\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 147,\n        \"title\": \"optical success Zealand\",\n        \"author\": \"Victor Bruen\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 148,\n        \"title\": \"Account transmitter monitoring paradigms Salad\",\n        \"author\": \"Vincent Durgan\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 149,\n        \"title\": \"\",\n        \"author\": \"Bonnie Pagac\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 150,\n        \"title\": \"Music synthesize\",\n        \"author\": \"Garry Gleason\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 151,\n        \"title\": \"SAS African\",\n        \"author\": \"Viola Schneider MD\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 152,\n        \"title\": \"Books bandwidth\",\n        \"author\": \"Geoffrey Borer\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 153,\n        \"title\": \"Cotton silver Handmade Borders\",\n        \"author\": \"Sam Cole\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 154,\n        \"title\": \"SAS protocol Table invoice\",\n        \"author\": \"Patrick Huels\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 155,\n        \"title\": \"compressing niches Africa\",\n        \"author\": \"Ruben Wyman\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 156,\n        \"title\": \"Assistant reboot Arabia enterprise Developer\",\n        \"author\": \"Tom Rosenbaum\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 157,\n        \"title\": \"Micronesia Island bluetooth\",\n        \"author\": null,\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 158,\n        \"title\": \"neutral reinvent alliance matrices invoice\",\n        \"author\": \"\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 159,\n        \"title\": \"Tools Concrete\",\n        \"author\": \"Glen O'Keefe\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 160,\n        \"title\": \"index red\",\n        \"author\": \"Josefina Harris\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 161,\n        \"title\": \"Georgia Kentucky payment Forks\",\n        \"author\": \"Ronnie Schimmel\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 162,\n        \"title\": \"Incredible Quality\",\n        \"author\": \"Pearl Rippin PhD\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 163,\n        \"title\": \"synthesizing Bike Research\",\n        \"author\": \"Marsha Rolfson\",\n        \"status\": \"available\"\n    },\n    {\n        \"book_id\": 164,\n        \"title\": \"Afghanistan Facilitator Regional Refined\",\n        \"author\": \"Steve Cartwright\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 165,\n        \"title\": \"\",\n        \"author\": \"Dr. Pam Rogahn\",\n        \"status\": \"borrowed\"\n    },\n    {\n        \"book_id\": 166,\n        \"title\": \"Rupee generating\",\n        \"author\": \"Alonzo Ondricka\",\n        \"status\": \"available\"\n    }\n]"
+                }
+              ]
             },
             {
               "name": "Create book successfully (Pre-con)",
@@ -1141,7 +2518,7 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Thêm mới thành công\", function () {\r",
+                      "pm.test(\"Check status code is 201\", function () {\r",
                       "  pm.response.to.have.status(201);\r",
                       "});\r",
                       "\r",
@@ -1179,6 +2556,16 @@
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
@@ -1200,7 +2587,68 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Create book successfully (Pre-con)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "149"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"95-/Sr8FPCNXJ5ivS9ivc0YYKe8bzI\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:19:28 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"id\": 162,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"Incredible Quality\",\n        \"author\": \"Pearl Rippin PhD\",\n        \"status\": \"available\"\n    }\n}"
+                }
+              ]
             }
           ]
         },
@@ -1261,7 +2709,64 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "GET not existed book",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": ""
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books/{{bk_id}}",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books",
+                            "{{bk_id}}"
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "51"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"33-BooCNuEEjPPXaPcn49xR13ANMsU\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:23:00 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"message\": \"Không tìm thấy cuốn Sách này!\"\n}"
+                    }
+                  ]
                 }
               ]
             },
@@ -1303,7 +2808,64 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "GET existed book successfully",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "114"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"72-YuInW9lGMvvftLyP+AIWmj7I6oQ\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:22:53 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"book_id\": 164,\n    \"title\": \"Afghanistan Facilitator Regional Refined\",\n    \"author\": \"Steve Cartwright\",\n    \"status\": \"borrowed\"\n}"
+                }
+              ]
             },
             {
               "name": "Create book successfully (Pre-con)",
@@ -1350,6 +2912,16 @@
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
@@ -1371,7 +2943,68 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Create book successfully (Pre-con)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "170"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"aa-MCDHSb8pvv/GS0mLHLEcMw1ieIk\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:22:43 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"id\": 164,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"Afghanistan Facilitator Regional Refined\",\n        \"author\": \"Steve Cartwright\",\n        \"status\": \"borrowed\"\n    }\n}"
+                }
+              ]
             }
           ]
         },
@@ -1421,6 +3054,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PUT",
                     "header": [],
                     "body": {
@@ -1443,7 +3086,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Update non - existed book",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books/8754853",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books",
+                            "8754853"
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "72"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"48-15wlkfWa23FZbFWwTG+cTAgfajg\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:23:36 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"message\": \"Không tìm thấy sách với ID này để cập nhật!\"\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Update field \"title\" - does't contain",
@@ -1482,6 +3187,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PUT",
                     "header": [],
                     "body": {
@@ -1504,7 +3219,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Update field \"title\" - does't contain",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books/{{bk_id}}",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books",
+                            "{{bk_id}}"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "46"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"2e-KZz/zT5HrnPynpMau4l7Tt4mZT4\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:23:46 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"error\": \"Tiêu đề sách là bắt buộc\"\n}"
+                    }
+                  ]
                 },
                 {
                   "name": "Update field \"title\" - empty string",
@@ -1532,8 +3309,8 @@
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
                           "});\r",
                           ""
                         ],
@@ -1544,6 +3321,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PUT",
                     "header": [],
                     "body": {
@@ -1566,7 +3353,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Update field \"title\" - empty string",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books/{{bk_id}}",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books",
+                            "{{bk_id}}"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "137"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"89-dLyInqZqcUg8JbxjPrE11+C04rw\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:26:20 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"message\": \"Cập nhật thông tin thành công!\",\n    \"data_updated\": {\n        \"book_Id\": \"166\",\n        \"title\": \"\",\n        \"author\": \"Kelly Hand\",\n        \"status\": \"borrowed\"\n    }\n}"
+                    }
+                  ]
                 }
               ]
             },
@@ -1615,6 +3464,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PUT",
                     "header": [],
                     "body": {
@@ -1637,7 +3496,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "UPDATE book all fields",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books/{{bk_id}}",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books",
+                            "{{bk_id}}"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "167"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"a7-+r+B+Z22k9ze1UzmGO6onFpEpss\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:26:42 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"message\": \"Cập nhật thông tin thành công!\",\n    \"data_updated\": {\n        \"book_Id\": \"166\",\n        \"title\": \"Automotive Cambridgeshire\",\n        \"author\": \"Chester Corkery\",\n        \"status\": \"borrowed\"\n    }\n}"
+                    }
+                  ]
                 }
               ]
             },
@@ -1664,9 +3585,32 @@
                     "packages": {},
                     "requests": {}
                   }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "PUT",
                 "header": [],
                 "body": {
@@ -1689,7 +3633,69 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "UPDATE book successfully",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "180"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"b4-VJCr13BLj8xt3yIKL/gpI6HVf9g\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:23:25 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Cập nhật thông tin thành công!\",\n    \"data_updated\": {\n        \"book_Id\": \"165\",\n        \"title\": \"hack throughput drive withdrawal override\",\n        \"author\": \"Dianne Metz\",\n        \"status\": \"available\"\n    }\n}"
+                }
+              ]
             },
             {
               "name": "Create book successfully (Pre-con)",
@@ -1719,8 +3725,8 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {\r",
-                      "  pm.response.to.have.status(200);\r",
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "  pm.response.to.have.status(201);\r",
                       "});\r",
                       "\r",
                       "const responseData = pm.response.json();\r",
@@ -1736,6 +3742,16 @@
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
@@ -1757,7 +3773,68 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Create book successfully (Pre-con)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "138"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"8a-Qr2P/JQUBnxDEpTdBQH74pKKoGU\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:23:12 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"id\": 165,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"Soft Latvia\",\n        \"author\": \"Kirk Mitchell\",\n        \"status\": \"borrowed\"\n    }\n}"
+                }
+              ]
             }
           ]
         },
@@ -1807,6 +3884,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PATCH",
                     "header": [],
                     "body": {
@@ -1829,7 +3916,69 @@
                       ]
                     }
                   },
-                  "response": []
+                  "response": [
+                    {
+                      "name": "Update non - existed book",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"id\": \"{{id}}\",\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseURL}}/books/99999",
+                          "host": [
+                            "{{baseURL}}"
+                          ],
+                          "path": [
+                            "books",
+                            "99999"
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "X-Powered-By",
+                          "value": "Express"
+                        },
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json; charset=utf-8"
+                        },
+                        {
+                          "key": "Content-Length",
+                          "value": "38"
+                        },
+                        {
+                          "key": "ETag",
+                          "value": "W/\"26-lVJKjVEGKY9sPyK8+HqJyMT6U0I\""
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Mon, 11 May 2026 14:27:31 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=5"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"message\": \"Không tìm thấy sách\"\n}"
+                    }
+                  ]
                 }
               ]
             },
@@ -1856,11 +4005,87 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "GET existed book successfully",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"Dale Carnegie\"\r\n}"
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "101"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"65-BkJDT7ptKZ4g2SXMyHYy70dQKzU\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:27:20 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"book_id\": 166,\n    \"title\": \"facilitate Personal Stand-alone\",\n    \"author\": \"Chris Doyle\",\n    \"status\": \"available\"\n}"
+                }
+              ]
             },
             {
               "name": "Create book successfully (Pre-con)",
               "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "  pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "\r",
+                      "const responseData = pm.response.json();\r",
+                      "const bk_id = responseData.id;\r",
+                      "\r",
+                      "pm.environment.set(\"bk_id\", bk_id);\r",
+                      "pm.environment.set(\"id\", bk_id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
                 {
                   "listen": "prerequest",
                   "script": {
@@ -1881,25 +4106,19 @@
                     "packages": {},
                     "requests": {}
                   }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {\r",
-                      "  pm.response.to.have.status(201);\r",
-                      "});\r",
-                      "\r",
-                      "const res = pm.response.json();\r",
-                      "pm.environment.set(\"bk_id\", res.id);"
-                    ],
-                    "type": "text/javascript",
-                    "packages": {},
-                    "requests": {}
-                  }
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
@@ -1921,7 +4140,68 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Create book successfully (Pre-con)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "145"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"91-Pcy0o6MT/Wg5CSMUFiSK53LoaNM\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:24:16 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"id\": 166,\n    \"message\": \"Thêm mới sách thành công!\",\n    \"data_created\": {\n        \"title\": \"Car Vatu Planner\",\n        \"author\": \"Brooke Murazik\",\n        \"status\": \"available\"\n    }\n}"
+                }
+              ]
             },
             {
               "name": "UPDATE paritial book",
@@ -1951,7 +4231,9 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      ""
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});"
                     ],
                     "type": "text/javascript",
                     "packages": {},
@@ -1960,6 +4242,16 @@
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "PATCH",
                 "header": [],
                 "body": {
@@ -1982,7 +4274,69 @@
                   ]
                 }
               },
-              "response": []
+              "response": [
+                {
+                  "name": "UPDATE paritial book",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"title\": \"{{tittle}}\",\r\n    \"author\": \"{{author}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseURL}}/books/{{bk_id}}",
+                      "host": [
+                        "{{baseURL}}"
+                      ],
+                      "path": [
+                        "books",
+                        "{{bk_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "143"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"8f-nLmSPGjafB5qZ/mus85mJok6QlU\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Mon, 11 May 2026 14:27:08 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Cập nhật thành công!\",\n    \"data_updated\": {\n        \"title\": \"facilitate Personal Stand-alone\",\n        \"author\": \"Chris Doyle\",\n        \"status\": \"available\"\n    }\n}"
+                }
+              ]
             }
           ]
         },
@@ -2022,6 +4376,16 @@
                     }
                   ],
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "DELETE",
                     "header": [],
                     "url": {
@@ -2067,8 +4431,8 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {\r",
-                      "  pm.response.to.have.status(200);\r",
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "  pm.response.to.have.status(201);\r",
                       "});\r",
                       "const responseData = pm.response.json();\r",
                       "const bk_id = responseData.id;\r",
@@ -2083,6 +4447,16 @@
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "POST",
                 "header": [],
                 "body": {
@@ -2133,6 +4507,16 @@
                 }
               ],
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "DELETE",
                 "header": [],
                 "url": {
